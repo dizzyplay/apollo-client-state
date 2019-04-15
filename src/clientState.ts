@@ -1,7 +1,7 @@
 import { Resolvers } from "./types/resolvers";
 import gql from "graphql-tag";
 import { GET_NOTES } from "./queries";
-import { fragment } from "./fragments";
+import { NOTE_FRAGMENT } from "./fragments";
 
 export const defaults = {
   notes: [
@@ -42,7 +42,7 @@ export const resolvers: Resolvers = {
         id: variables.id
       });
 
-      const note = cache.readFragment({ fragment, id });
+      const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id });
       return note;
     }
   },
@@ -62,17 +62,18 @@ export const resolvers: Resolvers = {
     },
     editNote: (_, { id, title, content }, { cache }) => {
       const noteId = cache.config.dataIdFromObject({ __typename: "Note", id });
-      const note = cache.readFragment({ fragment, id: noteId });
-      const { notes } = cache.readQuery({ query: GET_NOTES });
-      const temp = notes.filter((note: any) => note.id !== id);
-      note.title = title;
-      note.content = content;
-      console.log(note);
-      console.log(notes);
-      console.log(temp);
-      const ttt = temp.push(note);
-      cache.writeData({ data: { notes: ttt } });
-      return note;
+      const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id: noteId });
+      const updatedNote = {
+        ...note,
+        title,
+        content
+      };
+      cache.writeFragment({
+        data: updatedNote,
+        id: noteId,
+        fragment: NOTE_FRAGMENT
+      });
+      return updatedNote;
     }
   }
 };
