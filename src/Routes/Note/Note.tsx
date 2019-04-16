@@ -21,6 +21,7 @@ export default ({ match }: any) => {
           </Content>
         </>
       ) : null}
+      <Link to={"/"}> List </Link>
     </Wrapper>
   );
 };
