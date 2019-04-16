@@ -6,6 +6,7 @@ import { Wrapper, Header, Title } from "../../Styles/shared";
 
 export default () => {
   const { data } = useQuery(GET_NOTES);
+  console.log(data);
   return (
     <Wrapper>
       <Header>

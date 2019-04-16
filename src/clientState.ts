@@ -9,19 +9,19 @@ export const defaults = {
       __typename: "Note",
       id: 1,
       title: "fucn",
-      content: "testsets"
+      content: "### testsets \n test"
     }
   ]
 };
 export const typeDefs = [
   `
-  schema {
+  schema{
     query: Query
     mutation: Mutation
   }
   type Query{
     notes:[Note]!
-    note(id:Int!):Note
+    note(id:Int!):Note!
   }
   type Mutation{
     createNote(title:String!, content:String!):Note

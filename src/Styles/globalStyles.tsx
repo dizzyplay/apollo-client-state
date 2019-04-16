@@ -2,7 +2,6 @@ import { reset } from "styled-reset";
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-  ${reset}
   body{
     margin:100px;
     font-size: 20px;
