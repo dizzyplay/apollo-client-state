@@ -2,16 +2,11 @@ import { Resolvers } from "./types/resolvers";
 import gql from "graphql-tag";
 import { GET_NOTES } from "./queries";
 import { NOTE_FRAGMENT } from "./fragments";
+import offlineSave from "./offline";
 
+const notes: any = localStorage.getItem("notes");
 export const defaults = {
-  notes: [
-    {
-      __typename: "Note",
-      id: 1,
-      title: "fucn",
-      content: "### testsets \n test"
-    }
-  ]
+  notes: JSON.parse(notes)
 };
 export const typeDefs = [
   `
@@ -58,6 +53,7 @@ export const resolvers: Resolvers = {
       };
       const new_note_list = notes.concat(newNote);
       cache.writeData({ data: { notes: [newNote, ...notes] } });
+      offlineSave({ cache });
       return newNote;
     },
     editNote: (_, { id, title, content }, { cache }) => {
@@ -69,6 +65,7 @@ export const resolvers: Resolvers = {
         fragment: NOTE_FRAGMENT,
         data: updatedNote
       });
+      offlineSave({ cache });
       return updatedNote;
     }
   }

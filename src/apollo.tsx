@@ -8,13 +8,14 @@ const cache = new InMemoryCache();
 const stateLink = withClientState({
   cache,
   typeDefs,
-  defaults,
-  resolvers
+  resolvers,
+  defaults
 });
 
 const client = new ApolloClient({
   cache,
-  link: ApolloLink.from([stateLink])
+  link: ApolloLink.from([stateLink]),
+  resolvers
 });
 
 export default client;
